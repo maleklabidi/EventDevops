@@ -1,0 +1,35 @@
+version: '3'
+services:
+  spring:
+    image: malek-labidi-event:latest
+    restart: on-failure
+    ports:
+      - '8089:8089'
+    depends_on:
+      - mysql
+    networks:
+      - mynetwork
+    volumes:
+      - .m2:/root/.m2
+  mysql:
+    image: mysql:latest
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: malek
+      MYSQL_DATABASE: eventsProject
+      MYSQL_USER: malek
+      MYSQL_PASSWORD: malek
+    networks:
+      - mynetwork
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+networks:
+  mynetwork:
+    driver: bridge
+
+volumes:
+  mysql-data:
+  .m2:
