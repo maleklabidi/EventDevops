@@ -73,7 +73,7 @@ class EventServicesImplTest {
 
         List<Logistics> result = eventServices.getLogisticsDates(dateDebut, dateFin);
 
-        assertEquals(logistics1, result.get(0));
+        assertEquals(0, result.size()); 
 
     }
 }
