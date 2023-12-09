@@ -1,6 +1,7 @@
 package tn.esprit.eventsproject;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -36,6 +37,11 @@ class EventServicesImplTest {
 
     @InjectMocks
     private EventServicesImpl eventServices;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     void testCalculCout() {
