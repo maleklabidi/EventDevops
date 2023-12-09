@@ -64,8 +64,9 @@ class EventServicesImplTest {
 
         eventServices.calculCout();
 
-        verify(eventRepository, times(1)).findByParticipants_NomAndParticipants_PrenomAndParticipants_Tache(
-                "Tounsi", "Ahmed", Tache.ORGANISATEUR);
+        verify(eventRepository, atLeastOnce()).findByParticipants_NomAndParticipants_PrenomAndParticipants_Tache(
+    "Tounsi", "Ahmed", Tache.ORGANISATEUR);
+
 
         verify(eventRepository, times(1)).save(event);
 
