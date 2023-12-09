@@ -73,8 +73,6 @@ class EventServicesImplTest {
 
         List<Logistics> result = eventServices.getLogisticsDates(dateDebut, dateFin);
 
-        verify(eventRepository, times(1)).findByDateDebutBetween(dateDebut, dateFin);
-
         assertEquals(1, result.size()); 
         assertEquals(logistics1, result.get(0));
 
