@@ -10,7 +10,7 @@ FROM adoptopenjdk:11-jre-hotspot
 
 WORKDIR /app
 
-COPY --from=build /app/target/gestion-station-ski-1.0.jar ./app.jar
+COPY --from=build /app/target/eventsProject-1.0.0-SNAPSHOT.jar ./app.jar
 
 EXPOSE 8080
 
