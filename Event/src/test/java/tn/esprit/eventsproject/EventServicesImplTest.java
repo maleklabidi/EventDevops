@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.MockitoAnnotations;
 import tn.esprit.eventsproject.entities.Event;
@@ -46,37 +47,37 @@ class EventServicesImplTest {
     }
 
     @Test
-    void testCalculCout() {
-        Event event = new Event();
-        event.setIdEvent(1);
-        event.setDescription("Test Event");
-        event.setDateDebut(LocalDate.now());
-        event.setDateFin(LocalDate.now().plusDays(1));
-        event.setCout(0f);
+    void testGetLogisticsDates() {
+        LocalDate dateDebut = LocalDate.now();
+        LocalDate dateFin = LocalDate.now().plusDays(5);
 
-        Logistics logistics = new Logistics();
-        logistics.setIdLog(1);
-        logistics.setDescription("Test Logistics");
-        logistics.setReserve(true);
-        logistics.setPrixUnit(10f);
-        logistics.setQuantite(5);
+        Event event1 = new Event();
+        event1.setIdEvent(1);
 
-        Set<Logistics> logisticsSet = new HashSet<>();
-        logisticsSet.add(logistics);
-        event.setLogistics(logisticsSet);
+        Event event2 = new Event();
+        event2.setIdEvent(2);
 
-        List<Event> events = Collections.singletonList(event);
+        Logistics logistics1 = new Logistics();
+        logistics1.setIdLog(1);
+        logistics1.setReserve(true);
 
-        when(eventRepository.findByParticipants_NomAndParticipants_PrenomAndParticipants_Tache(
-                "Tounsi", "Ahmed", Tache.ORGANISATEUR)).thenReturn(events);
+        Logistics logistics2 = new Logistics();
+        logistics2.setIdLog(2);
+        logistics2.setReserve(false);
 
-        eventServices.calculCout();
+        event1.setLogistics(new HashSet<>(Collections.singletonList(logistics1)));
+        event2.setLogistics(new HashSet<>(Collections.singletonList(logistics2)));
 
-        verify(eventRepository, atLeastOnce()).findByParticipants_NomAndParticipants_PrenomAndParticipants_Tache(
-    "Tounsi", "Ahmed", Tache.ORGANISATEUR);
+        List<Event> events = Arrays.asList(event1, event2);
 
+        when(eventRepository.findByDateDebutBetween(dateDebut, dateFin)).thenReturn(events);
 
-        verify(eventRepository, times(1)).save(event);
+        List<Logistics> result = eventServices.getLogisticsDates(dateDebut, dateFin);
+
+        verify(eventRepository, times(1)).findByDateDebutBetween(dateDebut, dateFin);
+
+        assertEquals(1, result.size()); 
+        assertEquals(logistics1, result.get(0));
 
     }
 }
