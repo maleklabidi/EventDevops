@@ -15,9 +15,13 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.context.SpringBootTest;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 class EventServicesImplTest {
 
     @Mock
@@ -34,7 +38,6 @@ class EventServicesImplTest {
 
     @Test
     void testCalculCout() {
-        // Given
         Event event = new Event();
         event.setIdEvent(1);
         event.setDescription("Test Event");
@@ -58,15 +61,12 @@ class EventServicesImplTest {
         when(eventRepository.findByParticipants_NomAndParticipants_PrenomAndParticipants_Tache(
                 "Tounsi", "Ahmed", Tache.ORGANISATEUR)).thenReturn(events);
 
-        // When
         eventServices.calculCout();
 
-        // Then
         verify(eventRepository, times(1)).findByParticipants_NomAndParticipants_PrenomAndParticipants_Tache(
                 "Tounsi", "Ahmed", Tache.ORGANISATEUR);
 
         verify(eventRepository, times(1)).save(event);
 
-        // You can add additional assertions based on your specific requirements
     }
 }
