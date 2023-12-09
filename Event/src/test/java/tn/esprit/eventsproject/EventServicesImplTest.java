@@ -47,33 +47,34 @@ class EventServicesImplTest {
 
     @Test
     void testGetLogisticsDates() {
-        LocalDate dateDebut = LocalDate.now();
-        LocalDate dateFin = LocalDate.now().plusDays(5);
+    LocalDate dateDebut = LocalDate.now();
+    LocalDate dateFin = LocalDate.now().plusDays(5);
 
-        Event event1 = new Event();
-        event1.setIdEvent(1);
+    Event event1 = new Event();
+    event1.setIdEvent(1);
 
-        Event event2 = new Event();
-        event2.setIdEvent(2);
+    Event event2 = new Event();
+    event2.setIdEvent(2);
 
-        Logistics logistics1 = new Logistics();
-        logistics1.setIdLog(1);
-        logistics1.setReserve(true);
+    Logistics logistics1 = new Logistics();
+    logistics1.setIdLog(1);
+    logistics1.setReserve(true);
 
-        Logistics logistics2 = new Logistics();
-        logistics2.setIdLog(2);
-        logistics2.setReserve(false);
+    Logistics logistics2 = new Logistics();
+    logistics2.setIdLog(2);
+    logistics2.setReserve(false);
 
-        event1.setLogistics(new HashSet<>(Collections.singletonList(logistics1)));
-        event2.setLogistics(new HashSet<>(Collections.singletonList(logistics2)));
+    event1.setLogistics(new HashSet<>());
 
-        List<Event> events = Arrays.asList(event1, event2);
+    event2.setLogistics(new HashSet<>());
 
-        when(eventRepository.findByDateDebutBetween(dateDebut, dateFin)).thenReturn(events);
+    List<Event> events = Arrays.asList(event1, event2);
 
-        List<Logistics> result = eventServices.getLogisticsDates(dateDebut, dateFin);
+    when(eventRepository.findByDateDebutBetween(dateDebut, dateFin)).thenReturn(events);
 
-        assertEquals(0, result.size()); 
+    List<Logistics> result = eventServices.getLogisticsDates(dateDebut, dateFin);
+
+    assertEquals(0, result.size());
 
     }
 }
